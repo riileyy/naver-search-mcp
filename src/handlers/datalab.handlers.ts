@@ -21,18 +21,42 @@ const client = NaverSearchClient.getInstance();
  */
 export const datalabToolHandlers: Record<string, (args: any) => Promise<any>> =
   {
-    datalab_search: (args) => handleSearchTrend(args), // 검색어 트렌드 분석
-    datalab_shopping_category: (args) => handleShoppingCategoryTrend(args), // 쇼핑 카테고리별 트렌드
-    datalab_shopping_by_device: (args) => handleShoppingByDeviceTrend(args), // 쇼핑 기기별 트렌드
-    datalab_shopping_by_gender: (args) => handleShoppingByGenderTrend(args), // 쇼핑 성별 트렌드
-    datalab_shopping_by_age: (args) => handleShoppingByAgeTrend(args), // 쇼핑 연령별 트렌드
-    datalab_shopping_keywords: (args) => handleShoppingKeywordsTrend(args), // 쇼핑 키워드 그룹 트렌드
-    datalab_shopping_keyword_by_device: (args) =>
-      handleShoppingKeywordByDeviceTrend(args), // 쇼핑 키워드 기기별 트렌드
-    datalab_shopping_keyword_by_gender: (args) =>
-      handleShoppingKeywordByGenderTrend(args), // 쇼핑 키워드 성별 트렌드
-    datalab_shopping_keyword_by_age: (args) =>
-      handleShoppingKeywordByAgeTrend(args), // 쇼핑 키워드 연령별 트렌드
+    datalab_search: (args) => {
+      console.error("datalab_search called with args:", JSON.stringify(args, null, 2));
+      return handleSearchTrend(args);
+    },
+    datalab_shopping_category: (args) => {
+      console.error("datalab_shopping_category called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingCategoryTrend(args);
+    },
+    datalab_shopping_by_device: (args) => {
+      console.error("datalab_shopping_by_device called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingByDeviceTrend(args);
+    },
+    datalab_shopping_by_gender: (args) => {
+      console.error("datalab_shopping_by_gender called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingByGenderTrend(args);
+    },
+    datalab_shopping_by_age: (args) => {
+      console.error("datalab_shopping_by_age called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingByAgeTrend(args);
+    },
+    datalab_shopping_keywords: (args) => {
+      console.error("datalab_shopping_keywords called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingKeywordsTrend(args);
+    },
+    datalab_shopping_keyword_by_device: (args) => {
+      console.error("datalab_shopping_keyword_by_device called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingKeywordByDeviceTrend(args);
+    },
+    datalab_shopping_keyword_by_gender: (args) => {
+      console.error("datalab_shopping_keyword_by_gender called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingKeywordByGenderTrend(args);
+    },
+    datalab_shopping_keyword_by_age: (args) => {
+      console.error("datalab_shopping_keyword_by_age called with args:", JSON.stringify(args, null, 2));
+      return handleShoppingKeywordByAgeTrend(args);
+    },
   };
 
 /**
