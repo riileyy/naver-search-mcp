@@ -52,9 +52,7 @@ build:
   dockerfile: "./Dockerfile"
   dockerBuildPath: "."
 
-runtime:
-  type: "mcp"
-  transport: "stdio"
+runtime: "typescript"
 
 environment:
   - name: NAVER_CLIENT_ID
