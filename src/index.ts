@@ -279,13 +279,27 @@ async function main() {
 // Run main function if this file is executed directly
 // Note: Always run main in CLI mode since this is an MCP server
 console.error("Starting MCP server initialization...");
-console.error("import.meta.url:", import.meta.url);
 console.error("process.argv:", process.argv);
 
-// Check if running as main module
-const isMainModule = import.meta.url === `file://${process.argv[1]}` || 
-                     import.meta.url.endsWith(process.argv[1]) ||
-                     process.argv[1].endsWith("index.js");
+// Check if running as main module - compatible with both ESM and CommonJS
+let isMainModule = false;
+try {
+  // Try ESM approach first
+  if (typeof import.meta !== 'undefined' && import.meta.url) {
+    console.error("import.meta.url:", import.meta.url);
+    isMainModule = import.meta.url === `file://${process.argv[1]}` || 
+                   import.meta.url.endsWith(process.argv[1]) ||
+                   process.argv[1].endsWith("index.js");
+  } else {
+    // Fallback for CommonJS or when import.meta is not available
+    isMainModule = process.argv[1].endsWith("index.js") || 
+                   process.argv[1].includes("naver-search-mcp");
+  }
+} catch (error) {
+  // Fallback for environments where import.meta causes issues
+  isMainModule = process.argv[1].endsWith("index.js") || 
+                 process.argv[1].includes("naver-search-mcp");
+}
 
 console.error("isMainModule:", isMainModule);
 
