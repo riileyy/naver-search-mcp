@@ -36,19 +36,19 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
     server.tool(
       tool.name,
       tool.description,
-      tool.inputSchema,
-      async (args) => {
+      tool.inputSchema as any,
+      async (args: any) => {
         try {
           const handler = toolHandlers[tool.name];
           if (!handler) throw new Error(`Unknown tool: ${tool.name}`);
           const result = await handler(args);
           return {
-            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+            content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
           };
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : String(error);
           return {
-            content: [{ type: "text", text: `Error: ${errorMessage}` }],
+            content: [{ type: "text" as const, text: `Error: ${errorMessage}` }],
             isError: true,
           };
         }
@@ -61,19 +61,19 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
     server.tool(
       tool.name,
       tool.description,
-      tool.inputSchema,
-      async (args) => {
+      tool.inputSchema as any,
+      async (args: any) => {
         try {
           const handler = toolHandlers[tool.name];
           if (!handler) throw new Error(`Unknown tool: ${tool.name}`);
           const result = await handler(args);
           return {
-            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+            content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
           };
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : String(error);
           return {
-            content: [{ type: "text", text: `Error: ${errorMessage}` }],
+            content: [{ type: "text" as const, text: `Error: ${errorMessage}` }],
             isError: true,
           };
         }
