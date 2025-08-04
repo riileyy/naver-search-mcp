@@ -30,7 +30,7 @@ function createNaverSearchServer({ config }: { config: z.infer<typeof configSche
   // Create a new MCP server per MCP spec
   const server = new McpServer({
     name: "naver-search",
-    version: "1.0.20",
+    version: "1.0.30",
   });
 
   // Initialize Naver client with config

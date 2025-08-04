@@ -8,6 +8,12 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 
 #### Version History
 
+###### 1.0.30 (2025-08-04)
+
+- MCP SDK upgraded to 1.17.1
+- Fixed compatibility issues with Smithery specification changes
+- Added comprehensive DataLab shopping category code documentation
+
 ###### 1.0.2 (2025-04-26)
 
 - README updated: cafe article search tool and version history section improved
@@ -47,6 +53,7 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 
 ### Available tools:
 
+#### Search Tools
 - **search_webkr**: Search Naver web documents
 - **search_news**: Search Naver news
 - **search_blog**: Search Naver blogs
@@ -58,6 +65,8 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 - **search_encyc**: Search Naver encyclopedia
 - **search_academic**: Search Naver academic papers
 - **search_local**: Search Naver local places
+
+#### DataLab Tools
 - **datalab_search**: Analyze search term trends
 - **datalab_shopping_category**: Analyze shopping category trends
 - **datalab_shopping_by_device**: Analyze shopping trends by device
@@ -67,6 +76,42 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 - **datalab_shopping_keyword_by_device**: Analyze shopping keyword trends by device
 - **datalab_shopping_keyword_by_gender**: Analyze shopping keyword trends by gender
 - **datalab_shopping_keyword_by_age**: Analyze shopping keyword trends by age group
+
+### DataLab Shopping Category Codes
+
+For DataLab shopping analysis tools, you need to use specific **8-digit category codes**. Here are some common examples:
+
+#### Popular Category Codes:
+- **50000000**: Fashion/Clothing (패션의류)
+- **50000002**: Cosmetics/Beauty (화장품/미용)
+- **50000003**: Digital/Home Appliances (디지털/가전)
+- **50000004**: Sports/Leisure (스포츠/레저)
+- **50000005**: Automotive/Tools (자동차/공구)
+- **50000006**: Books/Music/DVDs (도서/음반/DVD)
+- **50000007**: Toys/Hobbies (완구/취미)
+- **50000008**: Food/Beverages (식품/음료)
+- **50000009**: Health/Medical (건강/의료용품)
+- **50000010**: Household/Living (생활/주방용품)
+
+#### How to Find Category Codes:
+1. Visit [Naver Shopping](https://shopping.naver.com)
+2. Navigate to desired category
+3. Check the `cat_id` parameter in the URL
+4. Use the 8-digit code (e.g., `cat_id=50000000` → use `"50000000"`)
+
+#### Usage Example:
+When using shopping category tools, specify category like:
+```json
+{
+  "category": "50000000",
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-31",
+  "timeUnit": "month"
+}
+```
+
+#### Complete Category List:
+For a complete list of category codes, you can download from Naver Shopping Partner Center or extract them by browsing Naver Shopping categories.
 
 ## Installation
 
