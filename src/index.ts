@@ -26,7 +26,7 @@ export const configSchema = z.object({
   NAVER_CLIENT_SECRET: z.string().describe("Naver API Client Secret")
 });
 
-function createNaverSearchServer({ config }: { config: z.infer<typeof configSchema> }) {
+export function createNaverSearchServer({ config }: { config: z.infer<typeof configSchema> }) {
   // Create a new MCP server per MCP spec
   const server = new McpServer({
     name: "naver-search",
