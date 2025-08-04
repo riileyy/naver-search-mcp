@@ -3,6 +3,7 @@
   "version": "1.0.18",
   "description": "Naver Search MCP Server",
   "main": "dist/index.js",
+  "module": "./src/index.ts",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
