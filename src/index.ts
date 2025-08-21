@@ -26,8 +26,16 @@ export const configSchema = z.object({
   NAVER_CLIENT_SECRET: z.string().describe("Naver API Client Secret")
 });
 
+// Global server instance to prevent memory leaks
+let globalServerInstance: McpServer | null = null;
+
 export function createNaverSearchServer({ config }: { config: z.infer<typeof configSchema> }) {
-  // Create a new MCP server per MCP spec
+  // Reuse existing server instance to prevent memory leaks
+  if (globalServerInstance) {
+    return globalServerInstance;
+  }
+
+  // Create a new MCP server only once
   const server = new McpServer({
     name: "naver-search",
     version: "1.0.30",
@@ -220,6 +228,9 @@ export function createNaverSearchServer({ config }: { config: z.infer<typeof con
     return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   });
 
+  // Cache the server instance
+  globalServerInstance = server;
+  
   return server.server;
 }
 
