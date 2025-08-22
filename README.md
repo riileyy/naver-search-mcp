@@ -8,7 +8,7 @@
 
 MCP server for Naver Search API and DataLab API integration, enabling comprehensive search across various Naver services and data trend analysis.
 
-> ⚠️ **Smithery Installation Notice**: Due to compatibility issues with the Smithery platform, **direct installation is recommended starting from version 1.0.40**. Smithery installation is only supported up to version 1.0.30.
+> ⚠️ **Smithery Installation Notice**: Due to compatibility issues with the Smithery platform, **npx installation is recommended starting from version 1.0.40**. Smithery installation is only supported up to version 1.0.30.
 
 #### Version History
 
@@ -17,7 +17,6 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 - `find_category` tool added - with fuzzy matching and ranking system support
 - Enhanced parameter validation with Zod schema
 - Improved category search workflow
-- Implemented level-based category ranking system (major categories prioritized)
 
 ###### 1.0.30 (2025-08-04)
 
@@ -38,10 +37,6 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 ###### 1.0.0 (2025-04-08)
 
 - Initial release
-
-#### Information
-
-**If you want to install the MCP via npm, do NOT use @mseep/server-naver-search (https://www.npmjs.com/package/@mseep/server-naver-search). That package is a copy of my work and was published without my permission. The npx version of that package is also broken and will not work properly. Please use this official package instead.**
 
 #### Prerequisites
 
@@ -66,7 +61,7 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 
 #### 🆕 Category Search
 
-- **find_category**: Category search tool - No more need to manually check category numbers via URL for trend and shopping insight searches.
+- **find_category**: Category search tool - No more need to manually check category numbers via URL for trend and shopping insight searches. The LLM will find it out as you say.
 
 #### Search Tools
 
@@ -93,43 +88,6 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 - **datalab_shopping_keyword_by_device**: Analyze shopping keyword trends by device
 - **datalab_shopping_keyword_by_gender**: Analyze shopping keyword trends by gender
 - **datalab_shopping_keyword_by_age**: Analyze shopping keyword trends by age group
-
-### DataLab Shopping Category Codes
-
-For DataLab shopping analysis tools, you need to use specific **8-digit category codes**. Here are some common examples:
-
-#### Popular Category Codes:
-
-- **50000000**: Fashion/Clothing (패션의류)
-- **50000002**: Cosmetics/Beauty (화장품/미용)
-- **50000003**: Digital/Home Appliances (디지털/가전)
-- **50000004**: Sports/Leisure (스포츠/레저)
-- **50000005**: Automotive/Tools (자동차/공구)
-- **50000006**: Books/Music/DVDs (도서/음반/DVD)
-- **50000007**: Toys/Hobbies (완구/취미)
-- **50000008**: Food/Beverages (식품/음료)
-- **50000009**: Health/Medical (건강/의료용품)
-- **50000010**: Household/Living (생활/주방용품)
-
-#### How to Find Category Codes:
-
-1. Visit [Naver Shopping](https://shopping.naver.com)
-2. Navigate to desired category
-3. Check the `cat_id` parameter in the URL
-4. Use the 8-digit code (e.g., `cat_id=50000000` → use `"50000000"`)
-
-#### Usage Example:
-
-When using shopping category tools, specify category like:
-
-```json
-{
-  "category": "50000000",
-  "startDate": "2024-01-01",
-  "endDate": "2024-01-31",
-  "timeUnit": "month"
-}
-```
 
 #### Complete Category List:
 
