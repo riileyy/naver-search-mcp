@@ -8,7 +8,16 @@
 
 MCP server for Naver Search API and DataLab API integration, enabling comprehensive search across various Naver services and data trend analysis.
 
+> ⚠️ **Smithery Installation Notice**: Due to compatibility issues with the Smithery platform, **direct installation is recommended starting from version 1.0.40**. Smithery installation is only supported up to version 1.0.30.
+
 #### Version History
+
+###### 1.0.4 (2025-08-21)
+
+- `find_category` tool added - with fuzzy matching and ranking system support
+- Enhanced parameter validation with Zod schema
+- Improved category search workflow
+- Implemented level-based category ranking system (major categories prioritized)
 
 ###### 1.0.30 (2025-08-04)
 
@@ -55,7 +64,12 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 
 ### Available tools:
 
+#### 🆕 Category Search
+
+- **find_category**: Category search tool - No more need to manually check category numbers via URL for trend and shopping insight searches.
+
 #### Search Tools
+
 - **search_webkr**: Search Naver web documents
 - **search_news**: Search Naver news
 - **search_blog**: Search Naver blogs
@@ -69,6 +83,7 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 - **search_local**: Search Naver local places
 
 #### DataLab Tools
+
 - **datalab_search**: Analyze search term trends
 - **datalab_shopping_category**: Analyze shopping category trends
 - **datalab_shopping_by_device**: Analyze shopping trends by device
@@ -84,6 +99,7 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 For DataLab shopping analysis tools, you need to use specific **8-digit category codes**. Here are some common examples:
 
 #### Popular Category Codes:
+
 - **50000000**: Fashion/Clothing (패션의류)
 - **50000002**: Cosmetics/Beauty (화장품/미용)
 - **50000003**: Digital/Home Appliances (디지털/가전)
@@ -96,13 +112,16 @@ For DataLab shopping analysis tools, you need to use specific **8-digit category
 - **50000010**: Household/Living (생활/주방용품)
 
 #### How to Find Category Codes:
+
 1. Visit [Naver Shopping](https://shopping.naver.com)
 2. Navigate to desired category
 3. Check the `cat_id` parameter in the URL
 4. Use the 8-digit code (e.g., `cat_id=50000000` → use `"50000000"`)
 
 #### Usage Example:
+
 When using shopping category tools, specify category like:
+
 ```json
 {
   "category": "50000000",
@@ -113,44 +132,211 @@ When using shopping category tools, specify category like:
 ```
 
 #### Complete Category List:
+
 For a complete list of category codes, you can download from Naver Shopping Partner Center or extract them by browsing Naver Shopping categories.
+
+### 🎯 Business Use Cases & Scenarios
+
+#### 🛍️ E-commerce Market Research
+
+```javascript
+// Fashion trend discovery
+find_category("fashion") → Check top fashion categories and codes
+datalab_shopping_category → Analyze seasonal fashion trends
+datalab_shopping_age → Identify fashion target demographics
+datalab_shopping_keywords → Compare "dress" vs "jacket" vs "coat"
+```
+
+#### 📱 Digital Marketing Strategy
+
+```javascript
+// Beauty industry analysis
+find_category("cosmetics") → Find beauty categories
+datalab_shopping_gender → 95% female vs 5% male shoppers
+datalab_shopping_device → Mobile dominance in beauty shopping
+datalab_shopping_keywords → "tint" vs "lipstick" keyword performance
+```
+
+#### 🏢 Business Intelligence & Competitive Analysis
+
+```javascript
+// Tech product insights
+find_category("smartphone") → Check electronics categories
+datalab_shopping_category → Track iPhone vs Galaxy trends
+datalab_shopping_age → 20-30s as main smartphone buyers
+datalab_shopping_device → PC vs mobile shopping behavior
+```
+
+#### 📊 Seasonal Business Planning
+
+```javascript
+// Holiday shopping analysis
+find_category("gift") → Gift categories
+datalab_shopping_category → Black Friday, Christmas trends
+datalab_shopping_keywords → "Mother's Day gift" vs "birthday gift"
+datalab_shopping_age → Age-based gift purchasing patterns
+```
+
+#### 🎯 Customer Persona Development
+
+```javascript
+// Fitness market analysis
+find_category("exercise") → Sports/fitness categories
+datalab_shopping_gender → Male vs female fitness spending
+datalab_shopping_age → Primary fitness demographics (20-40s)
+datalab_shopping_keywords → "home workout" vs "gym" trend analysis
+```
+
+### 📈 Advanced Analysis Scenarios
+
+#### Market Entry Strategy
+
+1. **Category Discovery**: Use `find_category` to explore market segments
+2. **Trend Analysis**: Identify growing vs declining categories
+3. **Demographic Targeting**: Age/gender analysis for customer targeting
+4. **Competitive Intelligence**: Keyword performance comparison
+5. **Device Strategy**: Mobile vs PC shopping optimization
+
+#### Product Launch Planning
+
+1. **Market Validation**: Category growth trends and seasonality
+2. **Target Customers**: Demographic analysis for product positioning
+3. **Marketing Channels**: Device preferences for advertising strategy
+4. **Competitive Landscape**: Keyword competition and opportunities
+5. **Pricing Strategy**: Category performance and price correlation
+
+#### Performance Monitoring
+
+1. **Category Health**: Monitor product category trends
+2. **Keyword Tracking**: Track brand and product keyword performance
+3. **Demographic Shifts**: Monitor changing customer demographics
+4. **Seasonal Patterns**: Plan inventory and marketing campaigns
+5. **Competitive Benchmarking**: Compare performance against category averages
+
+### Quick Reference: Popular Category Codes
+
+| Category            | Code     | Korean        |
+| ------------------- | -------- | ------------- |
+| Fashion/Clothing    | 50000000 | 패션의류      |
+| Cosmetics/Beauty    | 50000002 | 화장품/미용   |
+| Digital/Electronics | 50000003 | 디지털/가전   |
+| Sports/Leisure      | 50000004 | 스포츠/레저   |
+| Food/Beverages      | 50000008 | 식품/음료     |
+| Health/Medical      | 50000009 | 건강/의료용품 |
+
+💡 **Tip**: Use `find_category` with fuzzy searches like "beauty", "fashion", "electronics" to easily find categories.
 
 ## Installation
 
-### Option 1: Quick Install via Smithery (Recommended)
+### Step 1: Download Source Code
 
-To install Naver Search MCP Server automatically via Smithery, use one of these commands based on your AI client:
+To use this MCP server, you need to download the source code first:
 
-For Claude Desktop:
-
-```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
-```
-
-For Cursor:
+#### Clone with Git
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+git clone https://github.com/isnow890/naver-search-mcp.git
+cd naver-search-mcp
+npm install
+npm run build
 ```
 
-For Windsurf:
+#### Or Download ZIP File
+
+1. Download the latest version from [GitHub Releases](https://github.com/isnow890/naver-search-mcp/releases)
+2. Extract the ZIP file to your desired location
+3. Navigate to the extracted folder in terminal:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+cd /path/to/naver-search-mcp
+npm install
+npm run build
 ```
 
-For Cline:
+### Step 2: Claude Desktop Configuration
+
+After installation, you'll need the following information:
+
+- **NAVER_CLIENT_ID**: Client ID from Naver Developers
+- **NAVER_CLIENT_SECRET**: Client Secret from Naver Developers
+- **Installation Path**: Absolute path to the downloaded folder
+
+#### Windows Configuration
+
+Add to Claude Desktop config file (`%APPDATA%\Claude\claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "node",
+        "C:\\path\\to\\naver-search-mcp\\dist\\src\\index.js"
+      ],
+      "cwd": "C:\\path\\to\\naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+#### macOS/Linux Configuration
+
+Add to Claude Desktop config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/naver-search-mcp/dist/src/index.js"],
+      "cwd": "/path/to/naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+### Step 3: Path Configuration Important Notes
+
+⚠️ **Important**: You must change the following paths in the above configuration to your actual installation paths:
+
+- **Windows**: Change `C:\\path\\to\\naver-search-mcp` to your actual downloaded folder path
+- **macOS/Linux**: Change `/path/to/naver-search-mcp` to your actual downloaded folder path
+
+Finding your path:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+# Check current location
+pwd
+
+# Absolute path examples
+# Windows: C:\Users\username\Downloads\naver-search-mcp
+# macOS: /Users/username/Downloads/naver-search-mcp
+# Linux: /home/username/Downloads/naver-search-mcp
 ```
 
-The installer will prompt you for:
+### Step 4: Restart Claude Desktop
 
-- NAVER_CLIENT_ID
-- NAVER_CLIENT_SECRET
+After completing the configuration, completely close and restart Claude Desktop to activate the Naver Search MCP server.
 
-### Option 2: Manual Installation
+---
+
+## Alternative Installation Methods
+
+### Option 2: NPX Installation (For v1.0.30 and below)
+
+For older versions that support NPX installation:
 
 #### Environment Variables
 
@@ -164,22 +350,7 @@ export NAVER_CLIENT_ID=your_client_id
 export NAVER_CLIENT_SECRET=your_client_secret
 ```
 
-#### Run with NPX
-
-```bash
-npx @isnow890/naver-search-mcp
-```
-
-#### Run with Docker
-
-```bash
-docker run -i --rm \
-  -e NAVER_CLIENT_ID=your_client_id \
-  -e NAVER_CLIENT_SECRET=your_client_secret \
-  mcp/naver-search
-```
-
-## Claude Desktop Configuration
+#### Claude Desktop Configuration for NPX
 
 Add to `claude_desktop_config.json`:
 
@@ -198,7 +369,7 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-## Cursor AI Configuration
+#### Cursor AI Configuration for NPX
 
 Add to `mcp.json`:
 
@@ -217,7 +388,39 @@ Add to `mcp.json`:
 }
 ```
 
-For Docker:
+### Option 3: Legacy Smithery Installation (Only for v1.0.30 and below)
+
+⚠️ **Note**: This method only works for versions 1.0.30 and below due to platform compatibility issues.
+
+#### For Claude Desktop:
+```bash
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
+```
+
+#### For other AI clients:
+```bash
+# Cursor
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+
+# Windsurf
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+
+# Cline
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+```
+
+### Option 4: Docker Installation
+
+For containerized deployment:
+
+```bash
+docker run -i --rm \
+  -e NAVER_CLIENT_ID=your_client_id \
+  -e NAVER_CLIENT_SECRET=your_client_secret \
+  mcp/naver-search
+```
+
+Docker configuration for Claude Desktop:
 
 ```json
 {

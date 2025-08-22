@@ -6,7 +6,16 @@
 
 Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 서비스에서의 종합적인 검색과 데이터 트렌드 분석을 가능하게 합니다.
 
+> ⚠️ **Smithery 설치 안내**: Smithery 플랫폼의 호환성 오류로 인해 **1.0.40 버전부터는 직접 설치를 권장**합니다. Smithery를 통한 설치는 1.0.30 버전까지만 지원됩니다.
+
 #### 버전 히스토리
+
+###### 1.0.40 (2025-08-21)
+
+- `find_category` 도구 추가 - 이제 트렌드와 쇼핑 인사이트 검색을 위하여 카테고리 번호를 url로 일일히 찾을 필요가 없습니다.
+- Zod 스키마 기반 매개변수 검증 강화
+- 카테고리 검색 워크플로우 개선
+- 레벨 기반 카테고리 순위 시스템 구현 (대분류 우선)
 
 ###### 1.0.30 (2025-08-04)
 
@@ -54,7 +63,12 @@ Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 
 
 ### 사용 가능한 도구:
 
+#### 🆕 카테고리 검색
+
+- **find_category**: 카테고리 검색 도구 - 이제 트렌드와 쇼핑 인사이트 검색을 위하여 카테고리 번호를 url로 일일히 찾을 필요가 없습니다.
+
 #### 검색 도구
+
 - **search_webkr**: 웹 문서 검색
 - **search_news**: 뉴스 검색
 - **search_blog**: 블로그 검색
@@ -68,6 +82,7 @@ Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 
 - **search_local**: 지역 장소 검색
 
 #### DataLab 도구
+
 - **datalab_search**: 검색어 트렌드 분석
 - **datalab_shopping_category**: 쇼핑 카테고리 트렌드 분석
 - **datalab_shopping_by_device**: 기기별 쇼핑 트렌드 분석
@@ -83,6 +98,7 @@ Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 
 DataLab 쇼핑 분석 도구들을 사용할 때는 특정한 **8자리 카테고리 코드**를 사용해야 합니다. 주요 예시는 다음과 같습니다:
 
 #### 주요 카테고리 코드:
+
 - **50000000**: 패션의류
 - **50000002**: 화장품/미용
 - **50000003**: 디지털/가전
@@ -95,13 +111,16 @@ DataLab 쇼핑 분석 도구들을 사용할 때는 특정한 **8자리 카테�
 - **50000010**: 생활/주방용품
 
 #### 카테고리 코드 찾는 방법:
+
 1. [네이버 쇼핑](https://shopping.naver.com) 방문
 2. 원하는 카테고리로 이동
 3. URL에서 `cat_id` 파라미터 확인
 4. 8자리 코드 사용 (예: `cat_id=50000000` → `"50000000"` 사용)
 
 #### 사용 예시:
+
 쇼핑 카테고리 도구 사용 시 다음과 같이 카테고리를 지정:
+
 ```json
 {
   "category": "50000000",
@@ -111,47 +130,210 @@ DataLab 쇼핑 분석 도구들을 사용할 때는 특정한 **8자리 카테�
 }
 ```
 
-#### 전체 카테고리 목록:
-전체 카테고리 코드 목록은 네이버 쇼핑 파트너센터에서 다운로드하거나 네이버 쇼핑 카테고리를 탐색하여 추출할 수 있습니다.
+### 🎯 비즈니스 활용 사례 & 시나리오
+
+#### 🛍️ 전자상거래 시장 조사
+
+```javascript
+// 패션 트렌드 발견
+find_category("패션") → 상위 패션 카테고리와 코드 확인
+datalab_shopping_category → 계절별 패션 트렌드 분석
+datalab_shopping_age → 패션 타겟 연령층 파악
+datalab_shopping_keywords → "원피스" vs "자켓" vs "드레스" 비교
+```
+
+#### 📱 디지털 마케팅 전략
+
+```javascript
+// 뷰티 업계 분석
+find_category("화장품") → 뷰티 카테고리 찾기
+datalab_shopping_gender → 여성 95% vs 남성 5% 쇼핑객
+datalab_shopping_device → 뷰티 쇼핑의 모바일 우세
+datalab_shopping_keywords → "틴트" vs "립스틱" 키워드 성과
+```
+
+#### 🏢 비즈니스 인텔리전스 & 경쟁 분석
+
+```javascript
+// 테크 제품 인사이트
+find_category("스마트폰") → 전자제품 카테고리 확인
+datalab_shopping_category → 아이폰 vs 갤럭시 트렌드 추적
+datalab_shopping_age → 20-30대가 주요 스마트폰 구매층
+datalab_shopping_device → PC vs 모바일 쇼핑 행동
+```
+
+#### 📊 계절별 비즈니스 계획
+
+```javascript
+// 휴일 쇼핑 분석
+find_category("선물") → 선물 카테고리
+datalab_shopping_category → 블랙프라이데이, 크리스마스 트렌드
+datalab_shopping_keywords → "어버이날 선물" vs "생일선물"
+datalab_shopping_age → 연령대별 선물 구매 패턴
+```
+
+#### 🎯 고객 페르소나 개발
+
+```javascript
+// 피트니스 시장 분석
+find_category("운동") → 스포츠/피트니스 카테고리
+datalab_shopping_gender → 남녀 피트니스 지출 비교
+datalab_shopping_age → 피트니스 주요 연령층 (20-40대)
+datalab_shopping_keywords → "홈트" vs "헬스장" 트렌드 분석
+```
+
+### 📈 고급 분석 시나리오
+
+#### 시장 진입 전략
+
+1. **카테고리 발견**: `find_category`로 시장 세그먼트 탐색
+2. **트렌드 분석**: 성장하는 vs 쇠퇴하는 카테고리 식별
+3. **인구통계 타겟팅**: 고객 타겟팅을 위한 연령/성별 분석
+4. **경쟁 인텔리전스**: 키워드 성과 비교
+5. **기기 전략**: 모바일 vs PC 쇼핑 최적화
+
+#### 제품 출시 계획
+
+1. **시장 검증**: 카테고리 성장 트렌드와 계절성
+2. **타겟 고객**: 제품 포지셔닝을 위한 인구통계 분석
+3. **마케팅 채널**: 광고 전략을 위한 기기 선호도
+4. **경쟁 환경**: 키워드 경쟁과 기회
+5. **가격 전략**: 카테고리 성과와 가격 연관성
+
+#### 성과 모니터링
+
+1. **카테고리 건강도**: 제품 카테고리 트렌드 모니터링
+2. **키워드 추적**: 브랜드 및 제품 키워드 성과 추적
+3. **인구통계 변화**: 변화하는 고객 인구통계 모니터링
+4. **계절 패턴**: 재고 및 마케팅 캠페인 계획
+5. **경쟁 벤치마킹**: 카테고리 평균 대비 성과 비교
+
+### 빠른 참조: 인기 카테고리 코드
+
+| 카테고리        | 코드     | 한국어        |
+| --------------- | -------- | ------------- |
+| 패션/의류       | 50000000 | 패션의류      |
+| 화장품/뷰티     | 50000002 | 화장품/미용   |
+| 디지털/전자제품 | 50000003 | 디지털/가전   |
+| 스포츠/레저     | 50000004 | 스포츠/레저   |
+| 식품/음료       | 50000008 | 식품/음료     |
+| 건강/의료       | 50000009 | 건강/의료용품 |
+
+💡 **팁**: "뷰티", "패션", "전자제품"과 같은 퍼지 검색으로 `find_category`를 사용하여 카테고리를 쉽게 찾아보세요.
 
 ## 설치
 
-### 옵션 1: Smithery를 통한 빠른 설치 (권장)
+### 1단계: 소스 코드 다운로드
 
-Smithery를 통해 Naver Search MCP 서버를 자동으로 설치하려면 AI 클라이언트에 따라 다음 명령 중 하나를 사용하세요:
+이 MCP 서버를 사용하려면 먼저 소스 코드를 다운로드해야 합니다:
 
-Claude Desktop용:
-
-```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
-```
-
-Cursor용:
+#### Git으로 클론하기
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+git clone https://github.com/isnow890/naver-search-mcp.git
+cd naver-search-mcp
+npm install
+npm run build
 ```
 
-Windsurf용:
+#### 또는 ZIP 파일로 다운로드
+
+1. [GitHub 릴리스 페이지](https://github.com/isnow890/naver-search-mcp/releases)에서 최신 버전을 다운로드
+2. ZIP 파일을 원하는 위치에 압축 해제
+3. 터미널에서 압축 해제된 폴더로 이동:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+cd /path/to/naver-search-mcp
+npm install
+npm run build
 ```
 
-Cline용:
+### 2단계: Claude Desktop 설정
+
+설치가 완료되면 다음 정보가 필요합니다:
+
+- **NAVER_CLIENT_ID**: Naver Developers에서 발급받은 클라이언트 ID
+- **NAVER_CLIENT_SECRET**: Naver Developers에서 발급받은 클라이언트 시크릿
+- **설치 경로**: 다운로드한 폴더의 절대 경로
+
+#### Windows 설정
+
+Claude Desktop 설정 파일(`%APPDATA%\Claude\claude_desktop_config.json`)에 다음을 추가:
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "node",
+        "C:\\path\\to\\naver-search-mcp\\dist\\src\\index.js"
+      ],
+      "cwd": "C:\\path\\to\\naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+#### macOS/Linux 설정
+
+Claude Desktop 설정 파일(`~/Library/Application Support/Claude/claude_desktop_config.json`)에 다음을 추가:
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/naver-search-mcp/dist/src/index.js"],
+      "cwd": "/path/to/naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+### 3단계: 경로 설정 주의사항
+
+⚠️ **중요**: 위 설정에서 다음 경로들을 실제 설치 경로로 변경해야 합니다:
+
+- **Windows**: `C:\\path\\to\\naver-search-mcp`를 실제 다운로드한 폴더 경로로 변경
+- **macOS/Linux**: `/path/to/naver-search-mcp`를 실제 다운로드한 폴더 경로로 변경
+
+경로 찾기:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+# 현재 위치 확인
+pwd
+
+# 절대 경로 예시
+# Windows: C:\Users\홍길동\Downloads\naver-search-mcp
+# macOS: /Users/홍길동/Downloads/naver-search-mcp
+# Linux: /home/홍길동/Downloads/naver-search-mcp
 ```
 
-설치 프로그램은 다음 정보를 요청할 것입니다:
+### 4단계: Claude Desktop 재시작
 
-- NAVER_CLIENT_ID
-- NAVER_CLIENT_SECRET
+설정 완료 후 Claude Desktop을 완전히 종료하고 다시 시작하면 Naver Search MCP 서버가 활성화됩니다.
 
-### 옵션 2: 수동 설치
+---
 
-#### 환경 변수
+## 대안 설치 방법
+
+### 방법 2: NPX 설치 (v1.0.30 이하 버전용)
+
+NPX 설치를 지원하는 구버전용:
+
+#### 환경 변수 설정
 
 ```bash
 # Windows
@@ -163,22 +345,7 @@ export NAVER_CLIENT_ID=your_client_id
 export NAVER_CLIENT_SECRET=your_client_secret
 ```
 
-#### NPX로 실행
-
-```bash
-npx @isnow890/naver-search-mcp
-```
-
-#### Docker로 실행
-
-```bash
-docker run -i --rm \
-  -e NAVER_CLIENT_ID=your_client_id \
-  -e NAVER_CLIENT_SECRET=your_client_secret \
-  mcp/naver-search
-```
-
-## Claude Desktop 구성
+#### NPX용 Claude Desktop 설정
 
 `claude_desktop_config.json`에 추가:
 
@@ -197,9 +364,9 @@ docker run -i --rm \
 }
 ```
 
-## Cursor AI 구성
+#### NPX용 Cursor AI 설정
 
-Add to `mcp.json`에 추가:
+`mcp.json`에 추가:
 
 ```json
 {
@@ -216,7 +383,39 @@ Add to `mcp.json`에 추가:
 }
 ```
 
-Docker의 경우:
+### 방법 3: Smithery 레거시 설치 (v1.0.30 이하만 지원)
+
+⚠️ **주의**: 플랫폼 호환성 문제로 인해 1.0.30 버전 이하에서만 작동합니다.
+
+#### Claude Desktop용:
+```bash
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
+```
+
+#### 기타 AI 클라이언트용:
+```bash
+# Cursor
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+
+# Windsurf
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+
+# Cline
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+```
+
+### 방법 4: Docker 설치
+
+컨테이너 배포용:
+
+```bash
+docker run -i --rm \
+  -e NAVER_CLIENT_ID=your_client_id \
+  -e NAVER_CLIENT_SECRET=your_client_secret \
+  mcp/naver-search
+```
+
+Claude Desktop용 Docker 설정:
 
 ```json
 {
@@ -236,14 +435,6 @@ Docker의 경우:
     }
   }
 }
-```
-
-## 빌드
-
-Docker 빌드:
-
-```bash
-docker build -t mcp/naver-search .
 ```
 
 ## 라이선스
