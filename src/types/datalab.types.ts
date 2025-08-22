@@ -11,7 +11,7 @@ export interface DatalabSearchRequest {
     keywords: string[]; // 그룹 내 키워드 목록
   }>;
 }
-
+//checkpoint
 // 데이터랩 쇼핑 응답 타입
 export interface DatalabShoppingResponse {
   startDate: string; // 분석 시작일
