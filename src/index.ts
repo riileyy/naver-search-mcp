@@ -45,7 +45,7 @@ export function createNaverSearchServer({
   // Create a new MCP server only once
   const server = new McpServer({
     name: "naver-search",
-    version: "1.0.40",
+    version: "1.0.43",
   });
 
   // Initialize Naver client with config
@@ -461,6 +461,12 @@ try {
     isMainModule =
       process.argv[1].endsWith("index.js") ||
       process.argv[1].includes("naver-search-mcp");
+  }
+  
+  // Additional check for NPX execution
+  if (!isMainModule && process.argv.some(arg => arg.includes('naver-search-mcp'))) {
+    isMainModule = true;
+    console.error("Detected NPX execution, forcing main module mode");
   }
 } catch (error) {
   // Fallback for environments where import.meta causes issues
