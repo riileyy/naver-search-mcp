@@ -6,11 +6,13 @@
 
 Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 서비스에서의 종합적인 검색과 데이터 트렌드 분석을 가능하게 합니다.
 
+> ⚠️ **Smithery 설치 안내**: Smithery 플랫폼의 호환성 오류로 인해 **1.0.40 버전부터는 직접 설치를 권장**합니다. Smithery를 통한 설치는 1.0.30 버전까지만 지원됩니다.
+
 #### 버전 히스토리
 
-###### 1.0.4 (2025-08-21)
+###### 1.0.40 (2025-08-21)
 
-- `find_category` 도구 추가 - 퍼지 매칭과 순위 시스템 지원
+- `find_category` 도구 추가 - 이제 트렌드와 쇼핑 인사이트 검색을 위하여 카테고리 번호를 url로 일일히 찾을 필요가 없습니다.
 - Zod 스키마 기반 매개변수 검증 강화
 - 카테고리 검색 워크플로우 개선
 - 레벨 기반 카테고리 순위 시스템 구현 (대분류 우선)
@@ -63,7 +65,7 @@ Naver 검색 API와 DataLab API 통합을 위한 MCP 서버로, 다양한 Naver 
 
 #### 🆕 카테고리 검색
 
-- **find_category**: 카테고리 검색 도구 - 이제 트렌드와 쇼핑 인사이트 검색을 위하여 카테고리 번호를 url로 일일히 볼 필요가 없습니다.
+- **find_category**: 카테고리 검색 도구 - 이제 트렌드와 쇼핑 인사이트 검색을 위하여 카테고리 번호를 url로 일일히 찾을 필요가 없습니다.
 
 #### 검색 도구
 
@@ -221,42 +223,117 @@ datalab_shopping_keywords → "홈트" vs "헬스장" 트렌드 분석
 
 ## 설치
 
-### 옵션 1: Smithery를 통한 빠른 설치 (권장)
+### 1단계: 소스 코드 다운로드
 
-Smithery를 통해 Naver Search MCP 서버를 자동으로 설치하려면 AI 클라이언트에 따라 다음 명령 중 하나를 사용하세요:
+이 MCP 서버를 사용하려면 먼저 소스 코드를 다운로드해야 합니다:
 
-Claude Desktop용:
-
-```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
-```
-
-Cursor용:
+#### Git으로 클론하기
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+git clone https://github.com/isnow890/naver-search-mcp.git
+cd naver-search-mcp
+npm install
+npm run build
 ```
 
-Windsurf용:
+#### 또는 ZIP 파일로 다운로드
+
+1. [GitHub 릴리스 페이지](https://github.com/isnow890/naver-search-mcp/releases)에서 최신 버전을 다운로드
+2. ZIP 파일을 원하는 위치에 압축 해제
+3. 터미널에서 압축 해제된 폴더로 이동:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+cd /path/to/naver-search-mcp
+npm install
+npm run build
 ```
 
-Cline용:
+### 2단계: Claude Desktop 설정
+
+설치가 완료되면 다음 정보가 필요합니다:
+
+- **NAVER_CLIENT_ID**: Naver Developers에서 발급받은 클라이언트 ID
+- **NAVER_CLIENT_SECRET**: Naver Developers에서 발급받은 클라이언트 시크릿
+- **설치 경로**: 다운로드한 폴더의 절대 경로
+
+#### Windows 설정
+
+Claude Desktop 설정 파일(`%APPDATA%\Claude\claude_desktop_config.json`)에 다음을 추가:
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "node",
+        "C:\\path\\to\\naver-search-mcp\\dist\\src\\index.js"
+      ],
+      "cwd": "C:\\path\\to\\naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+#### macOS/Linux 설정
+
+Claude Desktop 설정 파일(`~/Library/Application Support/Claude/claude_desktop_config.json`)에 다음을 추가:
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/naver-search-mcp/dist/src/index.js"],
+      "cwd": "/path/to/naver-search-mcp",
+      "env": {
+        "NAVER_CLIENT_ID": "your-naver-client-id",
+        "NAVER_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+### 3단계: 경로 설정 주의사항
+
+⚠️ **중요**: 위 설정에서 다음 경로들을 실제 설치 경로로 변경해야 합니다:
+
+- **Windows**: `C:\\path\\to\\naver-search-mcp`를 실제 다운로드한 폴더 경로로 변경
+- **macOS/Linux**: `/path/to/naver-search-mcp`를 실제 다운로드한 폴더 경로로 변경
+
+경로 찾기:
 
 ```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+# 현재 위치 확인
+pwd
+
+# 절대 경로 예시
+# Windows: C:\Users\홍길동\Downloads\naver-search-mcp
+# macOS: /Users/홍길동/Downloads/naver-search-mcp
+# Linux: /home/홍길동/Downloads/naver-search-mcp
 ```
 
-설치 프로그램은 다음 정보를 요청할 것입니다:
+### 4단계: Claude Desktop 재시작
 
-- NAVER_CLIENT_ID
-- NAVER_CLIENT_SECRET
+설정 완료 후 Claude Desktop을 완전히 종료하고 다시 시작하면 Naver Search MCP 서버가 활성화됩니다.
 
-### 옵션 2: 수동 설치
+---
 
-#### 환경 변수
+## 대안 설치 방법
+
+### 방법 2: NPX 설치 (v1.0.30 이하 버전용)
+
+NPX 설치를 지원하는 구버전용:
+
+#### 환경 변수 설정
 
 ```bash
 # Windows
@@ -268,22 +345,7 @@ export NAVER_CLIENT_ID=your_client_id
 export NAVER_CLIENT_SECRET=your_client_secret
 ```
 
-#### NPX로 실행
-
-```bash
-npx @isnow890/naver-search-mcp
-```
-
-#### Docker로 실행
-
-```bash
-docker run -i --rm \
-  -e NAVER_CLIENT_ID=your_client_id \
-  -e NAVER_CLIENT_SECRET=your_client_secret \
-  mcp/naver-search
-```
-
-## Claude Desktop 구성
+#### NPX용 Claude Desktop 설정
 
 `claude_desktop_config.json`에 추가:
 
@@ -302,9 +364,9 @@ docker run -i --rm \
 }
 ```
 
-## Cursor AI 구성
+#### NPX용 Cursor AI 설정
 
-Add to `mcp.json`에 추가:
+`mcp.json`에 추가:
 
 ```json
 {
@@ -321,7 +383,39 @@ Add to `mcp.json`에 추가:
 }
 ```
 
-Docker의 경우:
+### 방법 3: Smithery 레거시 설치 (v1.0.30 이하만 지원)
+
+⚠️ **주의**: 플랫폼 호환성 문제로 인해 1.0.30 버전 이하에서만 작동합니다.
+
+#### Claude Desktop용:
+```bash
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
+```
+
+#### 기타 AI 클라이언트용:
+```bash
+# Cursor
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+
+# Windsurf
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+
+# Cline
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+```
+
+### 방법 4: Docker 설치
+
+컨테이너 배포용:
+
+```bash
+docker run -i --rm \
+  -e NAVER_CLIENT_ID=your_client_id \
+  -e NAVER_CLIENT_SECRET=your_client_secret \
+  mcp/naver-search
+```
+
+Claude Desktop용 Docker 설정:
 
 ```json
 {
@@ -341,14 +435,6 @@ Docker의 경우:
     }
   }
 }
-```
-
-## 빌드
-
-Docker 빌드:
-
-```bash
-docker build -t mcp/naver-search .
 ```
 
 ## 라이선스
