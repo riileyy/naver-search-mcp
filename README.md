@@ -228,11 +228,55 @@ datalab_shopping_keywords → "home workout" vs "gym" trend analysis
 
 ## Installation
 
-### Step 1: Download Source Code
+### Method 1: NPX Installation (Recommended)
 
-To use this MCP server, you need to download the source code first:
+The easiest way to use this MCP server is through NPX. For detailed package information, see the [NPM package page](https://www.npmjs.com/package/@isnow890/naver-search-mcp).
 
-#### Clone with Git
+#### Claude Desktop Configuration
+
+Add to Claude Desktop config file (`%APPDATA%\Claude\claude_desktop_config.json` on Windows, `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS/Linux):
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "command": "npx",
+      "args": ["-y", "@isnow890/naver-search-mcp"],
+      "env": {
+        "NAVER_CLIENT_ID": "your_client_id",
+        "NAVER_CLIENT_SECRET": "your_client_secret"
+      }
+    }
+  }
+}
+```
+
+#### Cursor AI Configuration
+
+Add to `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "naver-search": {
+      "command": "npx",
+      "args": ["-y", "@isnow890/naver-search-mcp"],
+      "env": {
+        "NAVER_CLIENT_ID": "your_client_id",
+        "NAVER_CLIENT_SECRET": "your_client_secret"
+      }
+    }
+  }
+}
+```
+
+### Method 2: Local Installation
+
+For local development or custom modifications:
+
+#### Step 1: Download and Build Source Code
+
+##### Clone with Git
 
 ```bash
 git clone https://github.com/isnow890/naver-search-mcp.git
@@ -241,7 +285,7 @@ npm install
 npm run build
 ```
 
-#### Or Download ZIP File
+##### Or Download ZIP File
 
 1. Download the latest version from [GitHub Releases](https://github.com/isnow890/naver-search-mcp/releases)
 2. Extract the ZIP file to your desired location
@@ -253,15 +297,17 @@ npm install
 npm run build
 ```
 
-### Step 2: Claude Desktop Configuration
+⚠️ **Important**: You must run `npm run build` after installation to generate the `dist` folder that contains the compiled JavaScript files.
 
-After installation, you'll need the following information:
+#### Step 2: Claude Desktop Configuration
+
+After building, you'll need the following information:
 
 - **NAVER_CLIENT_ID**: Client ID from Naver Developers
 - **NAVER_CLIENT_SECRET**: Client Secret from Naver Developers
 - **Installation Path**: Absolute path to the downloaded folder
 
-#### Windows Configuration
+##### Windows Configuration
 
 Add to Claude Desktop config file (`%APPDATA%\Claude\claude_desktop_config.json`):
 
@@ -286,7 +332,7 @@ Add to Claude Desktop config file (`%APPDATA%\Claude\claude_desktop_config.json`
 }
 ```
 
-#### macOS/Linux Configuration
+##### macOS/Linux Configuration
 
 Add to Claude Desktop config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
@@ -307,12 +353,13 @@ Add to Claude Desktop config file (`~/Library/Application Support/Claude/claude_
 }
 ```
 
-### Step 3: Path Configuration Important Notes
+##### Path Configuration Important Notes
 
 ⚠️ **Important**: You must change the following paths in the above configuration to your actual installation paths:
 
 - **Windows**: Change `C:\\path\\to\\naver-search-mcp` to your actual downloaded folder path
 - **macOS/Linux**: Change `/path/to/naver-search-mcp` to your actual downloaded folder path
+- **Build Path**: Make sure the path points to `dist/src/index.js` (not just `index.js`)
 
 Finding your path:
 
@@ -326,7 +373,7 @@ pwd
 # Linux: /home/username/Downloads/naver-search-mcp
 ```
 
-### Step 4: Restart Claude Desktop
+#### Step 3: Restart Claude Desktop
 
 After completing the configuration, completely close and restart Claude Desktop to activate the Naver Search MCP server.
 
@@ -334,61 +381,7 @@ After completing the configuration, completely close and restart Claude Desktop 
 
 ## Alternative Installation Methods
 
-### Option 2: NPX Installation (For v1.0.30 and below)
-
-For older versions that support NPX installation:
-
-#### Environment Variables
-
-```bash
-# Windows
-set NAVER_CLIENT_ID=your_client_id
-set NAVER_CLIENT_SECRET=your_client_secret
-
-# Linux/Mac
-export NAVER_CLIENT_ID=your_client_id
-export NAVER_CLIENT_SECRET=your_client_secret
-```
-
-#### Claude Desktop Configuration for NPX
-
-Add to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "naver-search": {
-      "command": "npx",
-      "args": ["-y", "@isnow890/naver-search-mcp"],
-      "env": {
-        "NAVER_CLIENT_ID": "your_client_id",
-        "NAVER_CLIENT_SECRET": "your_client_secret"
-      }
-    }
-  }
-}
-```
-
-#### Cursor AI Configuration for NPX
-
-Add to `mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "naver-search": {
-      "command": "npx",
-      "args": ["-y", "@isnow890/naver-search-mcp"],
-      "env": {
-        "NAVER_CLIENT_ID": "your_client_id",
-        "NAVER_CLIENT_SECRET": "your_client_secret"
-      }
-    }
-  }
-}
-```
-
-### Option 3: Legacy Smithery Installation (Only for v1.0.30 and below)
+### Method 3: Legacy Smithery Installation (Only for v1.0.30 and below)
 
 ⚠️ **Note**: This method only works for versions 1.0.30 and below due to platform compatibility issues.
 
@@ -409,7 +402,7 @@ npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
 npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
 ```
 
-### Option 4: Docker Installation
+### Method 4: Docker Installation
 
 For containerized deployment:
 
