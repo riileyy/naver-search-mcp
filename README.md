@@ -12,6 +12,13 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 
 #### Version History
 
+###### 1.0.44 (2025-08-31)
+
+- `get_current_korean_time` tool added - Essential time context tool for Korean timezone
+- Enhanced all existing tool descriptions to reference time tool for temporal queries
+- Improved temporal context handling for "today", "now", "current" searches
+- Comprehensive Korean time formatting with multiple output formats
+
 ###### 1.0.4 (2025-08-21)
 
 - `find_category` tool added - with fuzzy matching and ranking system support
@@ -58,6 +65,10 @@ MCP server for Naver Search API and DataLab API integration, enabling comprehens
 ## Tool Details
 
 ### Available tools:
+
+#### 🕐 Time & Context Tools
+
+- **get_current_korean_time**: Get current Korean time (KST) with comprehensive date/time information. Essential for understanding "today", "now", or "current" context in Korean timezone. Always use this tool when temporal context is needed for searches or analysis.
 
 #### 🆕 Category Search
 
