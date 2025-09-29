@@ -1,20 +1,30 @@
 // Import JSON data - bundle-safe approach
-import * as fs from 'fs';
-import * as path from 'path';
+import { existsSync, readFileSync } from 'fs';
+import { join } from 'path';
+
+// 메모리 누수 방지를 위한 지연 로딩 캐시
+let categoriesCache: any[] | null = null;
 
 // Load categories data with fallback paths for different environments
 function getCategoriesData(): any[] {
+  // 캐시된 데이터가 있으면 반환 (메모리 효율성)
+  if (categoriesCache !== null) {
+    return categoriesCache;
+  }
+
   try {
     // Try bundled data path first (dist/data)
-    const bundledPath = path.join(process.cwd(), 'dist', 'data', 'categories.json');
-    if (fs.existsSync(bundledPath)) {
-      return JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
+    const bundledPath = join(process.cwd(), 'dist', 'data', 'categories.json');
+    if (existsSync(bundledPath)) {
+      categoriesCache = JSON.parse(readFileSync(bundledPath, 'utf8') as string);
+      return categoriesCache!;
     }
 
     // Fallback to source data path
-    const sourcePath = path.join(process.cwd(), 'data', 'categories.json');
-    if (fs.existsSync(sourcePath)) {
-      return JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
+    const sourcePath = join(process.cwd(), 'data', 'categories.json');
+    if (existsSync(sourcePath)) {
+      categoriesCache = JSON.parse(readFileSync(sourcePath, 'utf8') as string);
+      return categoriesCache!;
     }
 
     throw new Error('카테고리 데이터 파일을 찾을 수 없습니다');
@@ -24,7 +34,12 @@ function getCategoriesData(): any[] {
   }
 }
 
-const categoriesData = getCategoriesData();
+/**
+ * 캐시 정리 함수 (메모리 누수 방지)
+ */
+export function clearCategoriesCache(): void {
+  categoriesCache = null;
+}
 
 // Category data structure
 interface CategoryData {
@@ -39,9 +54,10 @@ interface CategoryData {
  * Load category data from bundled JSON file
  */
 async function loadCategoryData(): Promise<CategoryData[]> {
-  // Return the pre-loaded JSON data - no file system access needed
-  console.error(`Loaded ${categoriesData.length} categories from bundled JSON data`);
-  return categoriesData as CategoryData[];
+  // 지연 로딩된 캐시 데이터 사용
+  const data = getCategoriesData();
+  console.error(`Loaded ${data.length} categories from bundled JSON data`);
+  return data as CategoryData[];
 }
 
 /**

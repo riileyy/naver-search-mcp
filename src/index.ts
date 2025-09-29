@@ -24,6 +24,7 @@ import { FindCategorySchema } from "./schemas/category.schemas.js";
 import { findCategoryHandler } from "./handlers/category.handlers.js";
 import { GetKoreanTimeSchema } from "./schemas/time.schemas.js";
 import { timeToolHandlers } from "./handlers/time.handlers.js";
+import { startGlobalMemoryMonitoring, stopGlobalMemoryMonitoring } from "./utils/memory-manager.js";
 
 // Configuration schema for Smithery
 export const configSchema = z.object({
@@ -33,12 +34,53 @@ export const configSchema = z.object({
 
 // Global server instance to prevent memory leaks
 let globalServerInstance: McpServer | null = null;
+let currentConfig: z.infer<typeof configSchema> | null = null;
+
+/**
+ * 서버 인스턴스와 관련 리소스 정리 (메모리 누수 방지)
+ */
+export function resetServerInstance(): void {
+  if (globalServerInstance) {
+    // 메모리 모니터링 중지
+    stopGlobalMemoryMonitoring();
+
+    // 클라이언트 인스턴스 정리
+    NaverSearchClient.destroyInstance();
+
+    // 카테고리 캐시 정리
+    import('./handlers/category.handlers.js').then(({ clearCategoriesCache }) => {
+      clearCategoriesCache();
+    });
+
+    globalServerInstance = null;
+    currentConfig = null;
+
+    console.error("Server instance and resources cleaned up");
+  }
+}
+
+/**
+ * 설정 변경 감지 함수
+ */
+function isConfigChanged(newConfig: z.infer<typeof configSchema>): boolean {
+  if (!currentConfig) return true;
+  return (
+    currentConfig.NAVER_CLIENT_ID !== newConfig.NAVER_CLIENT_ID ||
+    currentConfig.NAVER_CLIENT_SECRET !== newConfig.NAVER_CLIENT_SECRET
+  );
+}
 
 export function createNaverSearchServer({
   config,
 }: {
   config: z.infer<typeof configSchema>;
 }) {
+  // 설정이 변경된 경우 기존 인스턴스 정리
+  if (globalServerInstance && isConfigChanged(config)) {
+    console.error("Configuration changed, resetting server instance");
+    resetServerInstance();
+  }
+
   // Reuse existing server instance to prevent memory leaks
   if (globalServerInstance) {
     return globalServerInstance;
@@ -412,8 +454,13 @@ export function createNaverSearchServer({
     }
   );
 
-  // Cache the server instance
+  // Cache the server instance and config
   globalServerInstance = server;
+  currentConfig = config;
+
+  // 메모리 모니터링 시작 (5분 간격)
+  startGlobalMemoryMonitoring(5 * 60 * 1000);
+  console.error("Memory monitoring started");
 
   return server.server;
 }

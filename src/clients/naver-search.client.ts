@@ -43,6 +43,25 @@ export class NaverSearchClient extends NaverApiCoreClient {
   }
 
   /**
+   * 싱글톤 인스턴스 정리 (메모리 누수 방지)
+   */
+  static destroyInstance(): void {
+    if (NaverSearchClient.instance) {
+      NaverSearchClient.instance.cleanup();
+      NaverSearchClient.instance = null;
+    }
+  }
+
+  /**
+   * 인스턴스 리소스 정리
+   */
+  protected cleanup(): void {
+    this.config = null as any;
+    // HTTP 연결 정리는 부모 클래스에서 처리
+    super.cleanup();
+  }
+
+  /**
    * API 자격 증명으로 클라이언트 초기화
    */
   initialize(config: NaverSearchConfig) {
