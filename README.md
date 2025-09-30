@@ -200,32 +200,9 @@ datalab_shopping_keywords → "home workout" vs "gym" trend analysis
 
 ## Installation
 
-### Method 1: Smithery Installation (Recommended)
+### Method 1: NPX Installation (Recommended)
 
-The easiest way to use this MCP server is through Smithery.
-
-#### For Claude Desktop:
-
-```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
-```
-
-#### For other AI clients:
-
-```bash
-# Cursor
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
-
-# Windsurf
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
-
-# Cline
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
-```
-
-### Method 2: NPX Installation
-
-Alternatively, you can use NPX installation. For detailed package information, see the [NPM package page](https://www.npmjs.com/package/@isnow890/naver-search-mcp).
+The most reliable way to use this MCP server is through direct NPX installation. For detailed package information, see the [NPM package page](https://www.npmjs.com/package/@isnow890/naver-search-mcp).
 
 #### Claude Desktop Configuration
 
@@ -264,6 +241,39 @@ Add to `mcp.json`:
   }
 }
 ```
+
+### Method 2: Smithery Installation (Alternative - Known Issues)
+
+⚠️ **Important Notice**: Smithery installation may experience connection timeouts and hanging issues due to WebSocket relay infrastructure problems. This is a known Smithery platform issue, not a problem with this MCP server code. **NPX installation (Method 1) is strongly recommended for reliable operation.**
+
+#### Known Issues with Smithery:
+- Server initialization hangs or times out
+- `Error -32001: Request timed out`
+- WebSocket connection drops after handshake
+- Server shuts down unexpectedly before processing requests
+
+#### If you still want to try Smithery:
+
+##### For Claude Desktop:
+
+```bash
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
+```
+
+##### For other AI clients:
+
+```bash
+# Cursor
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+
+# Windsurf
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+
+# Cline
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+```
+
+**If you experience timeout issues with Smithery, please switch to Method 1 (NPX) for stable operation.**
 
 ### Method 3: Local Installation
 

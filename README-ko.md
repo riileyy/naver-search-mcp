@@ -199,30 +199,9 @@ datalab_shopping_keywords → "홈트" vs "헬스장" 트렌드 분석
 
 ## 설치
 
-### 방법 1: Smithery 설치 (권장)
+### 방법 1: NPX 설치 (권장)
 
-이 MCP 서버를 사용하는 가장 쉬운 방법은 Smithery를 통한 설치입니다.
-
-#### Claude Desktop용:
-```bash
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
-```
-
-#### 기타 AI 클라이언트용:
-```bash
-# Cursor
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
-
-# Windsurf
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
-
-# Cline
-npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
-```
-
-### 방법 2: NPX 설치
-
-대안으로 NPX 설치를 사용할 수 있습니다. 자세한 패키지 정보는 [NPM 패키지 페이지](https://www.npmjs.com/package/@isnow890/naver-search-mcp)를 참조하세요.
+이 MCP 서버를 사용하는 가장 안정적인 방법은 NPX 직접 설치입니다. 자세한 패키지 정보는 [NPM 패키지 페이지](https://www.npmjs.com/package/@isnow890/naver-search-mcp)를 참조하세요.
 
 #### Claude Desktop 설정
 
@@ -261,6 +240,39 @@ Claude Desktop 설정 파일에 다음을 추가하세요 (Windows: `%APPDATA%\C
   }
 }
 ```
+
+### 방법 2: Smithery 설치 (대안 - 알려진 문제 있음)
+
+⚠️ **중요 안내**: Smithery 설치는 WebSocket relay 인프라 문제로 인해 연결 타임아웃 및 멈춤 현상이 발생할 수 있습니다. 이는 Smithery 플랫폼의 알려진 문제이며, 본 MCP 서버 코드의 문제가 아닙니다. **안정적인 동작을 위해 방법 1 (NPX 설치)을 강력히 권장합니다.**
+
+#### Smithery의 알려진 문제점:
+- 서버 초기화가 멈추거나 타임아웃 발생
+- `Error -32001: Request timed out` 에러
+- 핸드셰이크 후 WebSocket 연결 끊김
+- 요청 처리 전 서버가 예기치 않게 종료됨
+
+#### 그래도 Smithery를 시도하고 싶다면:
+
+##### Claude Desktop용:
+
+```bash
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client claude
+```
+
+##### 기타 AI 클라이언트용:
+
+```bash
+# Cursor
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cursor
+
+# Windsurf
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client windsurf
+
+# Cline
+npx -y @smithery/cli@latest install @isnow890/naver-search-mcp --client cline
+```
+
+**Smithery에서 타임아웃 문제가 발생하면 방법 1 (NPX)로 전환하여 안정적으로 사용하세요.**
 
 ### 방법 3: 로컬 설치
 
