@@ -37,4 +37,8 @@ coverage/
 *.temp
 
 # Claude Code configuration
-.claude/ 
+.claude/
+
+# Reference folders
+ref/
+ef/ 
